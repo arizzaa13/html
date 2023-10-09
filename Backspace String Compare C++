@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+bool canTypeExactWords(string bob, string alice) {
+    int i = bob.length() - 1;
+    int j = alice.length() - 1;
+
+    while (i >= 0 && j >= 0) {
+        int backspaces = 0;
+
+        while (i >= 0 && (backspaces > 0 || bob[i] == '#')) {
+            if (bob[i] == '#') {
+                backspaces++;
+            } else {
+                backspaces--;
+            }
+            i--;
+        }
+
+        backspaces = 0;
+
+        while (j >= 0 && (backspaces > 0 || alice[j] == '#')) {
+            if (alice[j] == '#') {
+                backspaces++;
+            } else {
+                backspaces--;
+            }
+            j--;
+        }
+
+        if (i >= 0 && j >= 0 && bob[i] != alice[j]) {
+            return false;
+        }
+
+        if ((i >= 0) != (j >= 0)) {
+            return false;
+        }
+
+        i--;
+        j--;
+    }
+
+    while (i >= 0 && (bob[i] == '#' || bob[i] == ' ')) {
+        i--;
+    }
+
+    while (j >= 0 && (alice[j] == '#' || alice[j] == ' ')) {
+        j--;
+    }
+
+    return (i < 0) && (j < 0);
+}
+
+int main() {
+    string bob, alice;
+    cin >> bob >> alice;
+
+    if (canTypeExactWords(bob, alice)) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+
+    return 0;
+}
